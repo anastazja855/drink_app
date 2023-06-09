@@ -34,8 +34,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    val viewModel: CocktailListViewModel = hiltViewModel()
-                    Navigation(navController = navController, viewModel)
+
+                    Navigation(navController = navController)
                 }
             }
         }
