@@ -3,8 +3,6 @@ package com.example.drinkapplication.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,45 +18,47 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.drinkapplication.model.Drink
-import com.example.drinkapplication.vm.CocktailListViewModel
+import com.example.drinkapplication.vm.AlcoholicDrinkViewModel
+import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailListScreen(
+fun AlcoholicListScreen(
     navController: NavHostController,
-    viewModel: CocktailListViewModel = hiltViewModel(),
+    viewModel: AlcoholicDrinkViewModel = hiltViewModel()
 ) {
     val list = viewModel.flow.collectAsLazyPagingItems()
-    Scaffold (
-        topBar = {TopBar()}
-            ){ contentPadding ->
 
-        LazyColumn (modifier = Modifier.padding(contentPadding)){
+
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .background(color = colorResource(id = R.color.white)),
+
+        ) {
+        Text(text = "Alcoholic")
+        LazyColumn (modifier = Modifier.padding(12.dp)){
             items(list) { drink ->
                 drink?.let { drinkItem ->
-                    DrinkItemCard(
+                    AlcoholicDrinkItemCard(
                         drinkItem,
                         navController,
 
@@ -70,18 +70,16 @@ fun CocktailListScreen(
 }
 
 @Composable
-fun DrinkItemCard(
+fun AlcoholicDrinkItemCard(
     drink: Drink,
     navController: NavHostController,
 
-    //favoriteDrinkRepository :FavoriteDrinkRepository
-    //onAddToFavorites: (DrinkDetailsEntity) -> Unit
-) {
+    ) {
     val padding = 12.dp
     val coroutineScope = rememberCoroutineScope()
 
     Row(
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = CenterVertically,
         modifier = Modifier
             .padding(8.dp)
             .background(Color.White)
@@ -89,6 +87,10 @@ fun DrinkItemCard(
     ) {
         Row() {
             Column(modifier = Modifier.fillMaxWidth(0.6f)) {
+                Text(
+                    text = drink.strDrink ?: "",
+                    modifier = Modifier.padding(start = 16.dp)
+                )
                 GlideImage(
                     imageModel = drink.strDrinkThumb ?: "No photo available",
                     contentScale = ContentScale.Inside,
@@ -101,22 +103,10 @@ fun DrinkItemCard(
                         .fillMaxWidth(0.9f)
                         .fillMaxHeight(0.9f)
                 )
-                Text(
-                    text = drink.strDrink ?: "",
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+
             }
 
             Column(modifier = Modifier.clip(RoundedCornerShape(5.dp))) {
-                val interactionSource = remember { MutableInteractionSource() }
-                val isPressed by interactionSource.collectIsPressedAsState()
-
-                Button(
-                    onClick = { /* do something */ },
-                    interactionSource = interactionSource
-                ) {
-                    Text(if (isPressed) "Pressed!" else "Not pressed")
-                }
 
                 Button(
                     onClick = {
@@ -172,3 +162,4 @@ fun DrinkItemCard(
         }
     }
 }
+

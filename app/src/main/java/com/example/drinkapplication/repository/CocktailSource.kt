@@ -1,9 +1,9 @@
-package com.example.drinkapplication.network
+package com.example.drinkapplication.repository
+
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.drinkapplication.model.Drink
-import com.example.drinkapplication.repository.CocktailRepository
 import javax.inject.Inject
 
 class CocktailSource @Inject constructor(

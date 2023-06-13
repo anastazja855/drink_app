@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MyFavoriteDrinkDB {
+object DatabaseModule {
     //var favoriteDrinkDao: FavoriteDrinkDao?=null
     private var myFavoriteDrinkDB: FavoriteDrinkDatabase? = null
 

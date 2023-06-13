@@ -1,18 +1,18 @@
 package com.example.drinkapplication.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.drinkapplication.repository.FavoriteDrinkRepository
+import androidx.navigation.navArgument
+import com.example.drinkapplication.screens.AlcoholicListScreen
 import com.example.drinkapplication.screens.CocktailListScreen
 import com.example.drinkapplication.screens.DrinkInfoScreen
-import com.example.drinkapplication.screens.ShowDrinkInfoPreview
+import com.example.drinkapplication.screens.FilterByAlcoholic
+import com.example.drinkapplication.screens.NonAlcoholicListScreen
+import com.example.drinkapplication.screens.SelectedDrinkDetails
 import com.example.drinkapplication.screens.SplashScreen
-import com.example.drinkapplication.vm.CocktailListViewModel
-import com.example.drinkapplication.vm.DrinkViewModel
 
 @Composable
 fun Navigation(
@@ -35,9 +35,21 @@ fun Navigation(
                 DrinkInfoScreen(navController = navController, idDrink = it)
             }
         }
-        composable("test_drink_screen"){
-            ShowDrinkInfoPreview()
+        composable("select_category_screen")
+            { FilterByAlcoholic(navController)
+                }
+
+
+        composable("alcoholic_category"){
+            AlcoholicListScreen(navController)
+
         }
+        composable("non_alcoholic_category"){
+            NonAlcoholicListScreen(navController)
+        }
+//        composable("test_drink_screen"){
+//            ShowDrinkInfoPreview()
+//        }
 
     }
 }

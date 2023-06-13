@@ -33,7 +33,7 @@ fun SplashScreen(navController: NavController) {
     SplashScreenContent()
     LaunchedEffect(Unit) {
         delay(1500)
-        navController.navigate("cocktail_list")
+        navController.navigate("select_category_screen")
     }
 
 }

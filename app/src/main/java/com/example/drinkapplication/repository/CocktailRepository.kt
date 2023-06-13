@@ -8,6 +8,10 @@ class CocktailRepository @Inject constructor(
 ) {
     suspend fun getAllCocktailList() = api.getCocktailList()
 
+    suspend fun getAlcoholicDrinks () = api.getAlcoholicDrinks()
+
+    suspend fun getNonAlcoholicDrinks()=api.getNonAlcoholicDrinks()
+
     suspend fun getDrinkInfo(idDrink: String)=api.getCocktailInfo(idDrink)
 
 }

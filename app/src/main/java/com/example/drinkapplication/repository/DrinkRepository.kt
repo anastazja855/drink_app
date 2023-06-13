@@ -1,5 +1,6 @@
-package com.example.drinkapplication.network
+package com.example.drinkapplication.repository
 
+import com.example.drinkapplication.network.CocktailApi
 import javax.inject.Inject
 
 class DrinkRepository @Inject constructor(
