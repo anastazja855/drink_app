@@ -29,11 +29,17 @@ fun DrinkInfoScreen(
     viewModel: DrinkViewModel = hiltViewModel(),
     idDrink: String
 ) {
+
+
+
     LaunchedEffect(idDrink) {
-        viewModel.getDrinkInfo(idDrink)
+        val additionalData = viewModel.fetchAdditionalData(idDrink)
+        additionalData?.let {
+            viewModel.setDrinkInfo(it)
+        }
     }
 
-    val drinkInfo by viewModel.drinkInfo.observeAsState()
+        val drinkInfo by viewModel.drinkInfo.observeAsState()
 
     drinkInfo?.let {
         ShowDrinkInfo(drink = it)
@@ -42,6 +48,7 @@ fun DrinkInfoScreen(
 
 @Composable
 fun ShowDrinkInfo(drink: DrinkDetails) {
+
     drink?.strDrink?.let { Log.d("Show drink info screen", it) }
     Column(modifier = Modifier.clip(RoundedCornerShape(5.dp))) {
 

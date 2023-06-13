@@ -1,6 +1,7 @@
 package com.example.drinkapplication.network
 
 
+import com.example.drinkapplication.model.CocktailByID
 import com.example.drinkapplication.model.CocktailList
 import com.example.drinkapplication.model.CocktailSearchListModel
 import com.example.drinkapplication.model.DrinkDetails
@@ -21,7 +22,7 @@ interface CocktailApi {
     suspend fun getNonAlcoholicDrinks():Response<CocktailList>
 
     @GET("lookup.php")
-    suspend fun getCocktailInfo(@Query("i") idDrink: String): Response<DrinkDetails>
+    suspend fun getCocktailInfo(@Query("i") idDrink: String): Response<CocktailByID>
 
     @GET("search.php")
     suspend fun searchCocktails (@Query("s") query: String): Response<CocktailSearchListModel>

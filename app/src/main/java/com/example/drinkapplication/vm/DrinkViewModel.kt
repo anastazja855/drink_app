@@ -21,26 +21,31 @@ class DrinkViewModel @Inject constructor(
     private val _drinkInfo = MutableLiveData<DrinkDetails>()
     val drinkInfo: LiveData<DrinkDetails> = _drinkInfo
 
-
-
-    fun getDrinkInfo(idDrink:String) {
-        viewModelScope.launch {
-            val response = repository.getDrinkInfo(idDrink)
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    _drinkInfo.postValue(it)
-                }
-            }
-        }
+    fun setDrinkInfo(drinkDetails: DrinkDetails) {
+        _drinkInfo.value = drinkDetails
     }
 
-    suspend fun fetchAdditionalData(idDrink: String):DrinkDetails? {
+//    fun getDrinkInfo(idDrink:String) {
+//        viewModelScope.launch {
+//            val response = repository.getDrinkInfo(idDrink)
+//            if (response.isSuccessful) {
+//                response.body()?.let {
+//                    _drinkInfo.postValue(it)
+//                }
+//            }
+//        }
+//    }
+
+    suspend fun fetchAdditionalData(idDrink: String): DrinkDetails? {
         val response = cocktailApi.getCocktailInfo(idDrink)
         return if (!response.isSuccessful) {
             Log.e("API Error", "Failed to fetch additional data")
             null
         } else {
-            response.body()
+            val cocktailByID = response.body()
+            cocktailByID?.drinks?.firstOrNull()
         }
     }
+
+
 }

@@ -60,6 +60,7 @@ fun CocktailListScreen(
                 drink?.let { drinkItem ->
                     DrinkItemCard(
                         drinkItem,
+                        viewModel,
                         navController,
 
                     )
@@ -72,6 +73,7 @@ fun CocktailListScreen(
 @Composable
 fun DrinkItemCard(
     drink: Drink,
+    viewModel: CocktailListViewModel = hiltViewModel(),
     navController: NavHostController,
 
     //favoriteDrinkRepository :FavoriteDrinkRepository
@@ -121,7 +123,7 @@ fun DrinkItemCard(
                 Button(
                     onClick = {
                         Log.d("Favorite button click", drink.strDrink ?: "")
-//                        viewModel.addFavoriteDrink(drink)
+                        viewModel.addFavoriteDrink(drink)
                     },
                     contentPadding = PaddingValues(
                         start = 20.dp,
