@@ -2,18 +2,22 @@ package com.example.drinkapplication.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 data class DrinkDetails(
 
     val dateModified: String?,
 
+    @SerializedName("idDrink")
     val idDrink: String,
 
     val strAlcoholic: String?,
     val strCategory: String?,
     val strCreativeCommonsConfirmed: String?,
+    @SerializedName("strDrink")
     val strDrink: String?,
     val strDrinkAlternate: String?,
+    @SerializedName("strDrinkThumb")
     val strDrinkThumb: String?,
     val strGlass: String?,
     val strIBA: String?,
@@ -39,7 +43,9 @@ data class DrinkDetails(
     val strInstructionsES: String?,
     val strInstructionsFR: String?,
     val strInstructionsIT: String?,
+    @SerializedName("strInstructionsZH_HANS")
     val strInstructionsZH_HANS: String?,
+    @SerializedName("strInstructionsZH_HANT")
     val strInstructionsZH_HANT: String?,
     val strMeasure1: String?,
     val strMeasure2: String?,
@@ -59,6 +65,8 @@ data class DrinkDetails(
     val strTags: String?,
     val strVideo: String?
 )
+
+
     //: Parcelable {
 //    constructor(parcel: Parcel):this(
 //        parcel.readString(),

@@ -1,4 +1,4 @@
-package com.example.drinkapplication.vm
+package com.example.drinkapplication.screens.search
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.text.input.TextFieldValue

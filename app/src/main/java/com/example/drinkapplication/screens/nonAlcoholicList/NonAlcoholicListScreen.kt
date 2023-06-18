@@ -34,7 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.drinkapplication.model.Drink
-import com.example.drinkapplication.vm.NonAlcoholicDrinkViewModel
+import com.example.drinkapplication.screens.nonAlcoholicList.NonAlcoholicDrinkViewModel
 import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch

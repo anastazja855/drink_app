@@ -1,12 +1,12 @@
-package com.example.drinkapplication.vm
+package com.example.drinkapplication.screens.allCocktailList
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.drinkapplication.model.CocktailByID
 import com.example.drinkapplication.model.Drink
 import com.example.drinkapplication.model.DrinkDetails
 import com.example.drinkapplication.model.DrinkDetailsEntity
@@ -19,11 +19,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CocktailListViewModel @Inject constructor(
+class AllCocktailListViewModel @Inject constructor(
     private val dataSource: CocktailSource,
     private val cocktailApi: CocktailApi,
     private val favoriteDrinkRepository: FavoriteDrinkRepository
 ) : ViewModel() {
+
+    val isLoading = mutableStateOf<Boolean>(false)
+    val isError = mutableStateOf<Boolean>(false)
+
     val flow = Pager(
         PagingConfig(pageSize = 100)
     ) {
@@ -101,6 +105,28 @@ class CocktailListViewModel @Inject constructor(
                 )
                 favoriteDrinkRepository.addMyFavoriteDrinks(drinkDetailsEntity)
             }
+        }
+    }
+
+    private suspend fun fetchCocktailList() {
+        isLoading.value = true
+        try {
+            val response = cocktailApi.getCocktailList()
+            if (response.isSuccessful) {
+                val cocktailList = response.body()
+            } else {
+                isError.value = true
+            }
+        } catch (e: Exception) {
+            isError.value = true
+        } finally {
+            isLoading.value = false
+        }
+    }
+
+    fun loadCocktailList() {
+        viewModelScope.launch {
+            fetchCocktailList()
         }
     }
 }

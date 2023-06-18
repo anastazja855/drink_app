@@ -4,8 +4,6 @@ package com.example.drinkapplication.network
 import com.example.drinkapplication.model.CocktailByID
 import com.example.drinkapplication.model.CocktailList
 import com.example.drinkapplication.model.CocktailSearchListModel
-import com.example.drinkapplication.model.DrinkDetails
-import com.example.drinkapplication.model.DrinkX
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

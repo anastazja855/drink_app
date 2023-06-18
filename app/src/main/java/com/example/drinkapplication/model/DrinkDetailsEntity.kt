@@ -13,11 +13,15 @@ data class DrinkDetailsEntity(
     @ColumnInfo(name = "drinkId")
     val idDrink: String,
 
-    @ColumnInfo(name = "drinkName")
+    @ColumnInfo(name = "alcoholic")
     val strAlcoholic: String?,
+    @ColumnInfo(name = "category")
     val strCategory: String?,
+    @ColumnInfo(name = "creativeCommonsConfirmed")
     val strCreativeCommonsConfirmed: String?,
+    @ColumnInfo(name = "drinkName")
     val strDrink: String?,
+    @ColumnInfo(name = "drinkAlternate")
     val strDrinkAlternate: String?,
     @ColumnInfo(name = "drinkThumb")
     val strDrinkThumb: String?,
@@ -27,43 +31,81 @@ data class DrinkDetailsEntity(
     val strImageSource: String?,
     @ColumnInfo(name = "ingredient1")
     val strIngredient1: String?,
+    @ColumnInfo(name = "ingredient2")
     val strIngredient2: String?,
+    @ColumnInfo(name = "ingredient3")
     val strIngredient3: String?,
+    @ColumnInfo(name = "ingredient4")
     val strIngredient4: String?,
+    @ColumnInfo(name = "ingredient5")
     val strIngredient5: String?,
+    @ColumnInfo(name = "ingredient6")
     val strIngredient6: String?,
+    @ColumnInfo(name = "ingredient7")
     val strIngredient7: String?,
+    @ColumnInfo(name = "ingredient8")
     val strIngredient8: String?,
+    @ColumnInfo(name = "ingredient9")
     val strIngredient9: String?,
+    @ColumnInfo(name = "ingredient10")
     val strIngredient10: String?,
+    @ColumnInfo(name = "ingredient11")
     val strIngredient11: String?,
+    @ColumnInfo(name = "ingredient12")
     val strIngredient12: String?,
+    @ColumnInfo(name = "ingredient13")
     val strIngredient13: String?,
+    @ColumnInfo(name = "ingredient14")
     val strIngredient14: String?,
+    @ColumnInfo(name = "ingredient15")
     val strIngredient15: String?,
+    @ColumnInfo(name = "instructions")
     val strInstructions: String?,
+    @ColumnInfo(name = "instructionsDE")
     val strInstructionsDE: String?,
+    @ColumnInfo(name = "instructionsES")
     val strInstructionsES: String?,
+    @ColumnInfo(name = "instructionsFR")
     val strInstructionsFR: String?,
+    @ColumnInfo(name = "instructionsIT")
     val strInstructionsIT: String?,
+    @ColumnInfo(name = "instructionsZH_HANS")
     val strInstructionsZH_HANS: String?,
+    @ColumnInfo(name = "instructionsZH_HANT")
     val strInstructionsZH_HANT: String?,
+    @ColumnInfo(name = "measure1")
     val strMeasure1: String?,
+    @ColumnInfo(name = "measure2")
     val strMeasure2: String?,
+    @ColumnInfo(name = "measure3")
     val strMeasure3: String?,
+    @ColumnInfo(name = "measure4")
     val strMeasure4: String?,
+    @ColumnInfo(name = "measure5")
     val strMeasure5: String?,
+    @ColumnInfo(name = "measure6")
     val strMeasure6: String?,
+    @ColumnInfo(name = "measure7")
     val strMeasure7: String?,
+    @ColumnInfo(name = "measure8")
     val strMeasure8: String?,
+    @ColumnInfo(name = "measure9")
     val strMeasure9: String?,
+    @ColumnInfo(name = "measure10")
     val strMeasure10: String?,
+    @ColumnInfo(name = "measure11")
     val strMeasure11: String?,
+    @ColumnInfo(name = "measure12")
     val strMeasure12: String?,
+    @ColumnInfo(name = "measure13")
     val strMeasure13: String?,
+    @ColumnInfo(name = "measure14")
     val strMeasure14: String?,
+    @ColumnInfo(name = "measure15")
     val strMeasure15: String?,
+    @ColumnInfo(name = "tags")
     val strTags: String?,
+    @ColumnInfo(name = "video")
     val strVideo: String?
 ) {
     fun toDrinkDetails() =

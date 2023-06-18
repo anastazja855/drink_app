@@ -12,7 +12,7 @@ import retrofit2.create
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+class  NetworkModule {
     @Provides
     fun provideRetrofitService(): CocktailApi = Retrofit.Builder()
         .baseUrl(BASE_URL)

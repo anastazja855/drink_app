@@ -3,11 +3,13 @@ package com.example.drinkapplication.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +23,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -34,7 +37,9 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.drinkapplication.model.Drink
-import com.example.drinkapplication.vm.AlcoholicDrinkViewModel
+import com.example.drinkapplication.uistate.ErrorUI
+import com.example.drinkapplication.uistate.LoadingUI
+import com.example.drinkapplication.screens.filterByAlcoholic.FilterByAlcoholicViewModel
 import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
@@ -42,31 +47,49 @@ import kotlinx.coroutines.launch
 @Composable
 fun AlcoholicListScreen(
     navController: NavHostController,
-    viewModel: AlcoholicDrinkViewModel = hiltViewModel()
+    viewModel: FilterByAlcoholicViewModel = hiltViewModel()
 ) {
     val list = viewModel.flow.collectAsLazyPagingItems()
+    val isLoading = viewModel.isLoading.value
+    val isError = viewModel.isError.value
 
-
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .background(color = colorResource(id = R.color.white)),
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.white))
+    )
+    {
+        LaunchedEffect(Unit) {
+            viewModel.isLoading.value = true
+            try {
+                viewModel.loadAlcoholicDrinks()
+                viewModel.isLoading.value = false
+            } catch (e: Exception) {
+                viewModel.isLoading.value = false
+                viewModel.isError.value = true
+            }
+        }
 
-        ) {
-        Text(text = "Alcoholic")
-        LazyColumn (modifier = Modifier.padding(12.dp)){
-            items(list) { drink ->
-                drink?.let { drinkItem ->
-                    AlcoholicDrinkItemCard(
-                        drinkItem,
-                        navController,
+        if (isLoading) {
+            LoadingUI()
+        } else if (isError) {
+            ErrorUI()
+        } else {
 
-                    )
+            LazyColumn(modifier = Modifier.padding(12.dp)) {
+                items(list) { drink ->
+                    drink?.let { drinkItem ->
+                        AlcoholicDrinkItemCard(
+                            drinkItem,
+                            navController,
+
+                            )
+                    }
                 }
             }
         }
     }
+
 }
 
 @Composable

@@ -1,12 +1,10 @@
 package com.example.drinkapplication.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.drinkapplication.model.Drink
 import com.example.drinkapplication.model.DrinkDetailsEntity
 
 
@@ -18,6 +16,6 @@ interface FavoriteDrinkDao {
     @Delete
     suspend fun deleteFavoriteDrink(drink: DrinkDetailsEntity)
 
-//    @Query("SELECT * FROM drinkDetails")
-//    suspend fun getFavoriteDrinks(): List<Drink>
+    @Query("SELECT * FROM drinkDetails")
+    suspend fun getAllFavoriteDrinks(): List<DrinkDetailsEntity>
 }

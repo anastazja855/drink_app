@@ -1,4 +1,4 @@
-package com.example.drinkapplication.vm
+package com.example.drinkapplication.screens.nonAlcoholicList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

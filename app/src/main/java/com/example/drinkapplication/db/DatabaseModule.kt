@@ -13,15 +13,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
     //var favoriteDrinkDao: FavoriteDrinkDao?=null
-    private var myFavoriteDrinkDB: FavoriteDrinkDatabase? = null
+    private var myFavoriteDrinkDB: AppDataBase? = null
 
     @Singleton
     @Provides
-    fun init(@ApplicationContext context: Context): FavoriteDrinkDatabase {
+    fun init(@ApplicationContext context: Context): AppDataBase {
         return myFavoriteDrinkDB ?: synchronized(this) {
             myFavoriteDrinkDB ?: Room.databaseBuilder(
                 context,
-                FavoriteDrinkDatabase::class.java,
+                AppDataBase::class.java,
                 "myFavoriteDrink-database"
             ).build().also { myFavoriteDrinkDB = it }
         }
@@ -29,7 +29,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideFavoriteDrinkDao(favoriteDrinkDatabase: FavoriteDrinkDatabase): FavoriteDrinkDao {
-        return favoriteDrinkDatabase.favoriteDrinkDao()
+    fun provideFavoriteDrinkDao(appDataBase: AppDataBase): FavoriteDrinkDao {
+        return appDataBase.favoriteDrinkDao()
     }
 }
