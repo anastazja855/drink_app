@@ -1,6 +1,8 @@
 package com.example.drinkapplication.screens
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -30,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -53,12 +57,14 @@ fun AlcoholicListScreen(
     val isLoading = viewModel.isLoading.value
     val isError = viewModel.isError.value
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = colorResource(id = R.color.white))
-    )
+    Box(modifier = Modifier.fillMaxSize())
     {
+        Image(
+            painter = painterResource(id = R.drawable.drinklist_background),
+            contentDescription = "background_image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
         LaunchedEffect(Unit) {
             viewModel.isLoading.value = true
             try {
@@ -100,6 +106,7 @@ fun AlcoholicDrinkItemCard(
     ) {
     val padding = 12.dp
     val coroutineScope = rememberCoroutineScope()
+    val ctx = LocalContext.current
 
     Row(
         verticalAlignment = CenterVertically,
@@ -133,6 +140,8 @@ fun AlcoholicDrinkItemCard(
 
                 Button(
                     onClick = {
+                        val text = R.string.added_to_favorites
+                        Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
                         Log.d("Favorite button click", drink.strDrink ?: "")
 //                        viewModel.addFavoriteDrink(drink)
                     },

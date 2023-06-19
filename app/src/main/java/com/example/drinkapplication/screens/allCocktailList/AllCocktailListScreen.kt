@@ -1,7 +1,9 @@
 package com.example.drinkapplication.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,7 +40,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -68,6 +72,12 @@ fun AllCocktailListScreen(
 
 
     Box(modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.drinklist_background),
+            contentDescription = "background_image",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
         if (isLoading) {
             LoadingUI()
         } else if (isError) {
@@ -113,6 +123,7 @@ fun DrinkItemCard(
     val padding = 12.dp
     val coroutineScope = rememberCoroutineScope()
     val borderColor = colorResource(R.color.orange)
+    val ctx = LocalContext.current
     //val isFavoriteState= remember { mutableStateOf<List<Boolean>>() }
 
 //    LaunchedEffect(Unit) {
@@ -163,6 +174,8 @@ fun DrinkItemCard(
 
                 Button(
                     onClick = {
+                        val text = R.string.added_to_favorites
+                        Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
                         Log.d("Favorite button click", drink.strDrink ?: "")
                         viewModel.addFavoriteDrink(drink)
                     }, contentPadding = PaddingValues(

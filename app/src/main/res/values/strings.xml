@@ -9,4 +9,9 @@
     <string name="alcoholic_text">Alcoholic</string>
     <string name="non_alcoholic">Non-alcoholic</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="serve">Serve: </string>
+    <string name="tag">Tag: </string>
+    <string name="ingredients">Ingredients: </string>
+    <string name="instructions">Instructions: </string>
+    <string name="added_to_favorites">Added to Favorites! </string>
 </resources>

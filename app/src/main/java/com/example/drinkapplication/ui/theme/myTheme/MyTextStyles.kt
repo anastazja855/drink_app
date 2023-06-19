@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.drinkapplication.ui.theme.poppins
 import com.example.drinkapplication.ui.theme.redHatDisplayFont
 import com.example.tmsapp2.R
 
@@ -69,6 +69,65 @@ fun RedHatDisplay_16 (text:String) {
             fontSize = 16.sp, fontFamily = redHatDisplayFont,
             color = colorResource(id = R.color.text_color_black),
             lineHeight = 27.sp,
+            fontWeight = FontWeight.SemiBold)
+    }
+}
+@Composable
+fun RedHatDisplay_14_stringRes (@StringRes textResId:Int) {
+    val text = stringResource(textResId)
+    Box(modifier = Modifier
+        .wrapContentSize(),
+    ){
+        Text (text = text,
+            modifier = Modifier.padding(start = 16.dp),
+            fontSize = 14.sp, fontFamily = redHatDisplayFont,
+            color = colorResource(id = R.color.text_color_black),
+            lineHeight = 20.sp,
+            fontWeight = FontWeight.SemiBold)
+    }
+}
+
+@Composable
+fun RedHatDisplay_24_stringRes (@StringRes textResId:Int) {
+    val text = stringResource(textResId)
+    Box(modifier = Modifier
+        .wrapContentSize(),
+    ){
+        Text (text = text,
+            modifier = Modifier.padding(start = 16.dp),
+            fontSize = 24.sp, fontFamily = redHatDisplayFont,
+            color = colorResource(id = R.color.text_color_black),
+            lineHeight = 44.sp,
+            fontWeight = FontWeight.SemiBold)
+    }
+}
+
+@Composable
+fun RedHatDisplay_14_text (text:String) {
+    Box(modifier = Modifier
+        .wrapContentSize(),
+    ){
+        Text (text = text,
+            modifier = Modifier.padding(start = 16.dp),
+            fontSize = 14.sp, fontFamily = redHatDisplayFont,
+            fontWeight = FontWeight.Light,
+            color = colorResource(id = R.color.text_color_black),
+            lineHeight = 20.sp,
+            )
+    }
+}
+
+
+@Composable
+fun DrinkNameHeadLine (text:String) {
+    Box(modifier = Modifier
+        .wrapContentSize(),
+    contentAlignment = Alignment.Center
+    ){
+        Text (text = text,
+            fontSize = 34.sp, fontFamily = poppins,
+            color = colorResource(id = R.color.text_color_black),
+            lineHeight = 34.sp,
             fontWeight = FontWeight.SemiBold)
     }
 }

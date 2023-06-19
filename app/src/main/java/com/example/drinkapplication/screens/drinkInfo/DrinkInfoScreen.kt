@@ -1,6 +1,7 @@
 package com.example.drinkapplication.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -19,21 +21,29 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.drinkapplication.model.DrinkDetails
 import com.example.drinkapplication.screens.drinkInfo.DrinkInfoViewModel
+import com.example.drinkapplication.ui.theme.myTheme.DrinkNameHeadLine
+import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_14_stringRes
+import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_14_text
+import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_24_stringRes
 import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 
@@ -61,39 +71,56 @@ fun DrinkInfoScreen(
         val drinkInfo by viewModel.drinkInfo.observeAsState()
 
         drinkInfo?.let {
-            ShowDrinkInfo(drink = it)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+            ) {
+                item {
+                    ShowDrinkInfo(drink = it)
+                }
+            }
         }
     }
 }
 
+
 @Composable
 fun ShowDrinkInfo(drink: DrinkDetails) {
+    val ctx = LocalContext.current
 
     drink?.strDrink?.let { Log.d("Show drink info screen", it) }
-    Column(modifier = Modifier.clip(RoundedCornerShape(5.dp))) {
-        GlideImage(
-            imageModel = drink?.strDrinkThumb ?: "No photo available",
-            contentScale = ContentScale.Inside,
-            contentDescription = "My image",
+    Column() {
+        DrinkNameHeadLine(text = drink.strDrink ?: "")
+        DrinkTags(drink)
+        Box(
             modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth(0.4f)
-                .fillMaxHeight(0.4f)
-                .clip(RoundedCornerShape(5.dp))
-        )
-        Text(text = drink.strDrink ?: "")
+                .fillMaxWidth()
+                .padding(4.dp), contentAlignment = Alignment.Center
+        ) {
+
+            GlideImage(
+                imageModel = drink?.strDrinkThumb ?: "No photo available",
+                contentScale = ContentScale.Inside,
+                contentDescription = "My image",
+                modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth(0.8f)
+                    .fillMaxHeight(0.8f)
+                    .clip(RoundedCornerShape(30.dp))
+            )
+        }
+        RedHatDisplay_24_stringRes(textResId = R.string.ingredients)
         DrinkIngredientTable(drink)
+        RedHatDisplay_24_stringRes(textResId = R.string.instructions)
         ShowInstruction(drink)
         Button(
             onClick = {
+                val text = R.string.added_to_favorites
+                Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
                 Log.d("Favorite button click", drink.strDrink ?: "")
                 //viewModel.addFavoriteDrink(drink)
-            },
-            contentPadding = PaddingValues(
-                start = 20.dp,
-                top = 12.dp,
-                end = 20.dp,
-                bottom = 12.dp
+            }, contentPadding = PaddingValues(
+                start = 20.dp, top = 12.dp, end = 20.dp, bottom = 12.dp
             )
         ) {
             Icon(
@@ -142,6 +169,26 @@ fun DrinkIngredientTable(drink: DrinkDetails) {
         }
 
 
+    }
+
+}
+
+@Composable
+fun DrinkTags(drink: DrinkDetails) {
+    val padding = 8.dp
+    Column(
+        Modifier
+            .padding(padding)
+            .fillMaxWidth()
+    ) {
+        Row() {
+            RedHatDisplay_14_stringRes(textResId = R.string.serve)
+            RedHatDisplay_14_text(text = drink.strGlass ?: "")
+        }
+        Row() {
+            RedHatDisplay_14_stringRes(textResId = R.string.tag)
+            RedHatDisplay_14_text(text = drink.strAlcoholic ?: "")
+        }
     }
 
 }

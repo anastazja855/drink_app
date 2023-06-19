@@ -60,7 +60,7 @@ fun FilterByAlcoholicScreen(
             // MyHeadline_1(R.string.search_headline)
             MyHeadline_1(textResId = R.string.choose_category_headline)
             RedHatDisplay_18(R.string.categories_text)
-            SquareButtonWithImageAndText(image = R.drawable.non_alcoholic_image,
+            SquareButtonWithImageAndText(image = R.drawable.drink_icon_3,
                 stringResource = R.string.all_cocktails,
                 onClick = {
                     navController.navigate("cocktail_list")
