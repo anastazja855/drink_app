@@ -3,6 +3,7 @@ package com.example.drinkapplication.screens
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -94,6 +96,7 @@ fun ShowDrinkInfo(
     navController: NavHostController,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val borderColor = colorResource(R.color.orange)
     val ctx = LocalContext.current
 
     drink?.strDrink?.let { Log.d("Show drink info screen", it) }
@@ -118,22 +121,30 @@ fun ShowDrinkInfo(
             )
         }
 
-        Row(modifier = Modifier.clickable(onClick = {
+        Box(
+            modifier = Modifier
+                .padding(8.dp)
+                .border(1.dp, borderColor, shape = RoundedCornerShape(30.dp))
+        ) {
 
-            coroutineScope.launch {
-                Log.d(
-                    "Ingredient table button click",
-                    drink?.strDrink ?: "No thumbnail available"
+
+            Row(modifier = Modifier.clickable(onClick = {
+
+                coroutineScope.launch {
+                    Log.d(
+                        "Ingredient table button click",
+                        drink?.strDrink ?: "No thumbnail available"
+                    )
+                    navController.navigate("drinkIngredients/${drink.idDrink}")
+                }
+            })) {
+                RedHatDisplay_24_stringRes(textResId = R.string.ingredients)
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = "Icon",
+                    modifier = Modifier.padding(horizontal = 4.dp)
                 )
-                navController.navigate("drinkIngredients/${drink.idDrink}")
             }
-        })) {
-            RedHatDisplay_24_stringRes(textResId = R.string.ingredients)
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = "Icon",
-                modifier = Modifier.padding(horizontal = 4.dp)
-            )
         }
         DrinkIngredientTableShort(drink)
         RedHatDisplay_24_stringRes(textResId = R.string.instructions)
@@ -181,8 +192,6 @@ fun DrinkIngredientTableShort(drink: DrinkDetails) {
     }
 
 }
-
-
 
 
 @Composable
