@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -33,17 +34,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.drinkapplication.model.Drink
 import com.example.drinkapplication.uistate.ErrorUI
 import com.example.drinkapplication.uistate.LoadingUI
-import com.example.drinkapplication.screens.filterByAlcoholic.FilterByAlcoholicViewModel
+import com.example.drinkapplication.screens.alcoholicList.FilterByAlcoholicViewModel
+import com.example.drinkapplication.utills.DrinkUtils
 import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
@@ -88,8 +90,8 @@ fun AlcoholicListScreen(
                         AlcoholicDrinkItemCard(
                             drinkItem,
                             navController,
-
-                            )
+                            viewModel
+                        )
                     }
                 }
             }
@@ -102,8 +104,8 @@ fun AlcoholicListScreen(
 fun AlcoholicDrinkItemCard(
     drink: Drink,
     navController: NavHostController,
-
-    ) {
+    viewModel: FilterByAlcoholicViewModel = hiltViewModel(),
+) {
     val padding = 12.dp
     val coroutineScope = rememberCoroutineScope()
     val ctx = LocalContext.current
@@ -143,7 +145,8 @@ fun AlcoholicDrinkItemCard(
                         val text = R.string.added_to_favorites
                         Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
                         Log.d("Favorite button click", drink.strDrink ?: "")
-//                        viewModel.addFavoriteDrink(drink)
+                        viewModel.addDrinkToFavorites(drink)
+
                     },
                     contentPadding = PaddingValues(
                         start = 20.dp,
@@ -167,7 +170,6 @@ fun AlcoholicDrinkItemCard(
                 Button(
                     onClick = {
                         coroutineScope.launch {
-                            //val drinkDetails = viewModel.fetchAdditionalData(idDrink)
                             Log.d(
                                 "Learn more button click",
                                 drink?.strDrink ?: "No thumbnail available"

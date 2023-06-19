@@ -1,5 +1,6 @@
-package com.example.drinkapplication.screens.filterByAlcoholic
+package com.example.drinkapplication.screens.alcoholicList
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,9 @@ import com.example.drinkapplication.network.CocktailApi
 import com.example.drinkapplication.repository.AlcoholicDrinkSource
 import com.example.drinkapplication.repository.FavoriteDrinkRepository
 import com.example.drinkapplication.controller.NetworkController
+import com.example.drinkapplication.model.Drink
+import com.example.drinkapplication.model.DrinkDetails
+import com.example.drinkapplication.utills.DrinkUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -57,6 +61,11 @@ class FilterByAlcoholicViewModel
         viewModelScope.launch {
             fetchAlcoholicDrinks()
         }
+    }
+
+    private val drinkUtils: DrinkUtils = DrinkUtils(favoriteDrinkRepository, cocktailApi, viewModelScope)
+    fun addDrinkToFavorites(drink: Drink) {
+        drinkUtils.addFavoriteDrink(drink)
     }
 
 }

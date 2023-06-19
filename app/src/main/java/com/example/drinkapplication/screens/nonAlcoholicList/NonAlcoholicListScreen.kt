@@ -1,6 +1,7 @@
 package com.example.drinkapplication.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -71,10 +73,11 @@ fun NonAlcoholicListScreen(
 fun NonAlcoholicDrinkItemCard(
     drink: Drink,
     navController: NavHostController,
-
+    viewModel: NonAlcoholicDrinkViewModel = hiltViewModel()
     ) {
     val padding = 12.dp
     val coroutineScope = rememberCoroutineScope()
+    val ctx = LocalContext.current
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -104,12 +107,17 @@ fun NonAlcoholicDrinkItemCard(
 
             }
 
-            Column(modifier = Modifier.padding(padding).clip(RoundedCornerShape(5.dp))) {
+            Column(modifier = Modifier
+                .padding(padding)
+                .clip(RoundedCornerShape(5.dp))) {
 
                 Button(
                     onClick = {
                         Log.d("Favorite button click", drink.strDrink ?: "")
-//                        viewModel.addFavoriteDrink(drink)
+                        viewModel.addDrinkToFavorites(drink)
+                        val text = R.string.added_to_favorites
+                        Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
+
                     },
                     contentPadding = PaddingValues(
                         start = 20.dp,

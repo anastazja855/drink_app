@@ -21,7 +21,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -85,7 +83,10 @@ fun DrinkInfoScreen(
 
 
 @Composable
-fun ShowDrinkInfo(drink: DrinkDetails) {
+fun ShowDrinkInfo(
+    drink: DrinkDetails,
+    viewModel: DrinkInfoViewModel = hiltViewModel()
+) {
     val ctx = LocalContext.current
 
     drink?.strDrink?.let { Log.d("Show drink info screen", it) }
@@ -118,6 +119,7 @@ fun ShowDrinkInfo(drink: DrinkDetails) {
                 val text = R.string.added_to_favorites
                 Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
                 Log.d("Favorite button click", drink.strDrink ?: "")
+                viewModel.addDrinkToFavorites(drink.toDrink(drink))
                 //viewModel.addFavoriteDrink(drink)
             }, contentPadding = PaddingValues(
                 start = 20.dp, top = 12.dp, end = 20.dp, bottom = 12.dp

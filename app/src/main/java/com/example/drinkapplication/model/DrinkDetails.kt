@@ -64,7 +64,19 @@ data class DrinkDetails(
     val strMeasure15: String?,
     val strTags: String?,
     val strVideo: String?
-)
+){
+    fun toDrink (drinkDetails: DrinkDetails): Drink {
+        return drinkDetails.strDrink?.let {
+            drinkDetails.strDrinkThumb?.let { it1 ->
+                Drink(
+                    idDrink = drinkDetails.idDrink,
+                    strDrink = it,
+                    strDrinkThumb = it1
+                )
+            }
+        } ?: Drink("", "", "")
+    }
+}
 
 
     //: Parcelable {
