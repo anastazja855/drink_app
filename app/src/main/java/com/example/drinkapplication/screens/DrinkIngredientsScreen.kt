@@ -17,12 +17,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,16 +41,13 @@ import androidx.navigation.NavHostController
 import com.example.drinkapplication.model.DrinkDetails
 import com.example.drinkapplication.screens.drinkInfo.DrinkInfoViewModel
 import com.example.drinkapplication.ui.theme.myTheme.DrinkNameHeadLine
-import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_14_stringRes
-import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_14_text
 import com.example.drinkapplication.ui.theme.myTheme.RedHatDisplay_24_stringRes
 import com.example.tmsapp2.R
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrinkInfoScreen(
+fun DrinkIngredientsScreen(
     navController: NavHostController,
     viewModel: DrinkInfoViewModel = hiltViewModel(),
     idDrink: String
@@ -74,22 +69,17 @@ fun DrinkInfoScreen(
         val drinkInfo by viewModel.drinkInfo.observeAsState()
 
         drinkInfo?.let {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
-            ) {
-                item {
-                    ShowDrinkInfo(drink = it, viewModel, navController)
-                }
-            }
+            ShowIngredientTable(drinkInfo, viewModel, navController)
+            //DrinkIngredientTableLong(drinkInfo)
+            //ShowDrinkInfo(drink = it, viewModel, navController)
         }
     }
+
 }
 
-
 @Composable
-fun ShowDrinkInfo(
-    drink: DrinkDetails,
+fun ShowIngredientTable(
+    drink: DrinkDetails?,
     viewModel: DrinkInfoViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
@@ -98,52 +88,28 @@ fun ShowDrinkInfo(
 
     drink?.strDrink?.let { Log.d("Show drink info screen", it) }
     Column() {
-        DrinkNameHeadLine(text = drink.strDrink ?: "")
-        DrinkTags(drink)
+        DrinkNameHeadLine(text = drink?.strDrink ?: "")
+        //DrinkTags(drink)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp), contentAlignment = Alignment.Center
         ) {
-
-            GlideImage(
-                imageModel = drink?.strDrinkThumb ?: "No photo available",
-                contentScale = ContentScale.Inside,
-                contentDescription = "My image",
-                modifier = Modifier
-                    .padding(4.dp)
-                    .fillMaxWidth(0.8f)
-                    .fillMaxHeight(0.8f)
-                    .clip(RoundedCornerShape(30.dp))
-            )
         }
 
-        Row(modifier = Modifier.clickable(onClick = {
-
-            coroutineScope.launch {
-                Log.d(
-                    "Ingredient table button click",
-                    drink?.strDrink ?: "No thumbnail available"
-                )
-                navController.navigate("drinkIngredients/${drink.idDrink}")
-            }
-        })) {
+        Row() {
             RedHatDisplay_24_stringRes(textResId = R.string.ingredients)
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = "Icon",
-                modifier = Modifier.padding(horizontal = 4.dp)
-            )
         }
-        DrinkIngredientTableShort(drink)
-        RedHatDisplay_24_stringRes(textResId = R.string.instructions)
-        ShowInstruction(drink)
+        DrinkIngredientTableLong(drink)
+
         Button(
             onClick = {
                 val text = R.string.added_to_favorites
                 Toast.makeText(ctx, text, Toast.LENGTH_SHORT).show()
-                Log.d("Favorite button click", drink.strDrink ?: "")
-                viewModel.addDrinkToFavorites(drink.toDrink(drink))
+                Log.d("Favorite button click", drink?.strDrink ?: "")
+                if (drink != null) {
+                    viewModel.addDrinkToFavorites(drink.toDrink(drink))
+                }
                 //viewModel.addFavoriteDrink(drink)
             }, contentPadding = PaddingValues(
                 start = 20.dp, top = 12.dp, end = 20.dp, bottom = 12.dp
@@ -164,90 +130,47 @@ fun ShowDrinkInfo(
 
 }
 
-
 @Composable
-fun DrinkIngredientTableShort(drink: DrinkDetails) {
+fun DrinkIngredientTableLong(drink: DrinkDetails?) {
     val padding = 8.dp
     Column(
         Modifier
             .padding(padding)
             .fillMaxWidth()
     ) {
-        DrinkIngredientTableLine(drink.strIngredient1, drink.strMeasure1)
-        DrinkIngredientTableLine(drink.strIngredient2, drink.strMeasure2)
-        if (!drink.strIngredient3.isNullOrBlank() && !drink.strMeasure3.isNullOrBlank()) {
-            DrinkIngredientTableLine(drink.strIngredient3, drink.strMeasure3)
+        DrinkIngredientTableLine(drink?.strIngredient1, drink?.strMeasure1)
+        DrinkIngredientTableLine(drink?.strIngredient2, drink?.strMeasure2)
+        if (!drink?.strIngredient3.isNullOrBlank() && !drink?.strMeasure3.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient3, drink?.strMeasure3)
         }
+        if (!drink?.strIngredient4.isNullOrBlank() && !drink?.strMeasure4.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient4, drink?.strMeasure4)
+        }
+        if (!drink?.strIngredient5.isNullOrBlank() && !drink?.strMeasure5.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient5, drink?.strMeasure5)
+        }
+        if (!drink?.strIngredient6.isNullOrBlank() && !drink?.strMeasure6.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient6, drink?.strMeasure6)
+        }
+        if (!drink?.strIngredient7.isNullOrBlank() && !drink?.strMeasure7.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient7, drink?.strMeasure7)
+        }
+        if (!drink?.strIngredient8.isNullOrBlank() && !drink?.strMeasure8.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient8, drink?.strMeasure8)
+        }
+        if (!drink?.strIngredient9.isNullOrBlank() && !drink?.strMeasure9.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient9, drink?.strMeasure9)
+        }
+        if (!drink?.strIngredient10.isNullOrBlank() && !drink?.strMeasure10.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient10, drink?.strMeasure10)
+        }
+        if (!drink?.strIngredient11.isNullOrBlank() && !drink?.strMeasure11.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient11, drink?.strMeasure11)
+        }
+        if (!drink?.strIngredient12.isNullOrBlank() && !drink?.strMeasure12.isNullOrBlank()) {
+            DrinkIngredientTableLine(drink?.strIngredient12, drink?.strMeasure12)
+        }
+
     }
 
 }
-
-
-
-
-@Composable
-fun DrinkIngredientTableLine(ingredient: String?, measure: String?) {
-
-    Row() {
-        Text(text = ingredient ?: "")
-        Icon(
-            imageVector = Icons.Filled.KeyboardArrowRight,
-            contentDescription = "Icon",
-            modifier = Modifier.padding(horizontal = 4.dp)
-        )
-        Text(text = measure ?: "")
-    }
-
-}
-
-@Composable
-fun DrinkTags(drink: DrinkDetails) {
-    val padding = 8.dp
-    Column(
-        Modifier
-            .padding(padding)
-            .fillMaxWidth()
-    ) {
-        Row() {
-            RedHatDisplay_14_stringRes(textResId = R.string.serve)
-            RedHatDisplay_14_text(text = drink.strGlass ?: "")
-        }
-        Row() {
-            RedHatDisplay_14_stringRes(textResId = R.string.tag)
-            RedHatDisplay_14_text(text = drink.strAlcoholic ?: "")
-        }
-    }
-
-}
-
-@Composable
-fun ShowInstruction(drink: DrinkDetails) {
-    Text(text = drink.strInstructions ?: "")
-}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ShowDrinkInfoPreview() {
-//    Column() {
-//
-//        ShowDrinkInfo(
-//            drink = Drink(
-//                "11007",
-//                "Margarita",
-//                "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-//                "Tequila",
-//                "Triple sec",
-//                "Lime juice",
-//                "Salt",
-//                "1 1/2 oz",
-//                "1/2 oz",
-//                "1 oz",
-//                "1/2 oz",
-//                "1 oz",
-//
-//
-//
-//            )
-//        )
-//    }
-//}

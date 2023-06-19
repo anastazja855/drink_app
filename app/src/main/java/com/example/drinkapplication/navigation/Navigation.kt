@@ -17,6 +17,7 @@ import com.example.drinkapplication.screens.SearchScreen
 import com.example.drinkapplication.screens.SplashScreen
 import com.example.drinkapplication.navigation.bottombar.BottomNavItem
 import com.example.drinkapplication.navigation.bottombar.MyBottomNavigation
+import com.example.drinkapplication.screens.DrinkIngredientsScreen
 
 enum class NavType{
     HOME,
@@ -58,6 +59,12 @@ fun Navigation(
                 val cocktailId = backStackEntry.arguments?.getString("idDrink")
                 cocktailId?.let {
                     DrinkInfoScreen(navController = navController, idDrink = it)
+                }
+            }
+            composable("drinkIngredients/{idDrink}") { backStackEntry ->
+                val cocktailId = backStackEntry.arguments?.getString("idDrink")
+                cocktailId?.let {
+                    DrinkIngredientsScreen(navController = navController, idDrink = it)
                 }
             }
 
